@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.0.0] - 2017-11-10
+#### Added
+* added `load_balancer_type` to support multiple load balancer types (application, network)
+
+#### Changed
+* moved from the `aws_alb` resource to the `aws_lb` resource [aws_lb documentation](https://www.terraform.io/docs/providers/aws/r/lb.html)
+
 ## [2.0.0] - 2017-11-06
 #### Added
 * added `create_log_bucket` and `enable_logging` to help control logging more granularly.

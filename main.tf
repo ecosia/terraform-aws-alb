@@ -1,16 +1,17 @@
-### ALB resources
+### LB resources
 
 provider "aws" {
   region  = "${var.region}"
-  version = "~> 1.0.0"
+  version = "~> 1.1.0"
 }
 
-resource "aws_alb" "main" {
-  name            = "${var.alb_name}"
-  subnets         = ["${var.subnets}"]
-  security_groups = ["${var.alb_security_groups}"]
-  internal        = "${var.alb_is_internal}"
-  tags            = "${merge(var.tags, map("Name", format("%s", var.alb_name)))}"
+resource "aws_lb" "main" {
+  name               = "${var.alb_name}"
+  subnets            = ["${var.subnets}"]
+  security_groups    = ["${var.alb_security_groups}"]
+  load_balancer_type = "${var.alb_is_type_network ? "network" : "application"}"
+  internal           = "${var.alb_is_internal}"
+  tags               = "${merge(var.tags, map("Name", format("%s", var.alb_name)))}"
 
   access_logs {
     bucket  = "${var.log_bucket_name}"
@@ -72,7 +73,7 @@ resource "aws_alb_target_group" "target_group" {
 }
 
 resource "aws_alb_listener" "frontend_http" {
-  load_balancer_arn = "${aws_alb.main.arn}"
+  load_balancer_arn = "${aws_lb.main.arn}"
   port              = "80"
   protocol          = "HTTP"
   count             = "${contains(var.alb_protocols, "HTTP") ? 1 : 0}"
@@ -84,7 +85,7 @@ resource "aws_alb_listener" "frontend_http" {
 }
 
 resource "aws_alb_listener" "frontend_https" {
-  load_balancer_arn = "${aws_alb.main.arn}"
+  load_balancer_arn = "${aws_lb.main.arn}"
   port              = "443"
   protocol          = "HTTPS"
   certificate_arn   = "${var.certificate_arn}"

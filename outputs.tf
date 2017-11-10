@@ -1,16 +1,16 @@
 output "alb_dns_name" {
   description = "The DNS name of the ALB presumably to be used with a friendlier CNAME."
-  value       = "${aws_alb.main.dns_name}"
+  value       = "${aws_lb.main.dns_name}"
 }
 
 output "alb_id" {
   description = "The ID of the ALB we created."
-  value       = "${aws_alb.main.id}"
+  value       = "${aws_lb.main.id}"
 }
 
 output "alb_zone_id" {
   description = "The zone_id of the ALB to assist with creating DNS records."
-  value       = "${aws_alb.main.zone_id}"
+  value       = "${aws_lb.main.zone_id}"
 }
 
 output "principal_account_id" {
